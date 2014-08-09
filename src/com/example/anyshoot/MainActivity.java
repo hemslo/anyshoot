@@ -4,7 +4,9 @@ import android.R.string;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.hardware.Sensor;
@@ -16,6 +18,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.os.StrictMode;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -75,6 +78,9 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	private double accumX = 0;
 	private double accumY = 0;
 	private double accumZ = 0;
+	
+	// control
+	private boolean fireShoot;
 
 	void sendMsg2Server(final String udpMsg){
 		EditText ServerText = (EditText) findViewById(R.id.editText1);
@@ -137,10 +143,13 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			ConnectToServerFlag = false;
 
 			// headset button
-			//    	HardButtonReceiver buttonReceiver = new HardButtonReceiver();
-			//        IntentFilter iF = new IntentFilter(Intent.ACTION_MEDIA_BUTTON);
-			//        iF.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
-			//        registerReceiver(buttonReceiver, iF);
+//	    	HardButtonReceiver buttonReceiver = new HardButtonReceiver();
+//	        IntentFilter iF = new IntentFilter(Intent.ACTION_MEDIA_BUTTON);
+//	        iF.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
+//	        registerReceiver(buttonReceiver, iF);
+			
+			// Control
+			fireShoot = false;
 		}
 
 	public void onClickBtnConnect(View v) {
@@ -276,11 +285,15 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			// in order to get the updated rotation.
 			// rotationCurrent = rotationCurrent * deltaRotationMatrix;
 			timestamp = event.timestamp;
-
-			String msg = Float.toString(deltaRotationVector[0]) + ',' 
-				+ Float.toString(deltaRotationVector[1]) + ',' 
-				+ Float.toString(deltaRotationVector[2]) + ',' 
-				+ "false";
+			String msg;
+			
+				
+			msg = Float.toString(deltaRotationVector[0]) + ',' 
+					+ Float.toString(deltaRotationVector[1]) + ',' 
+					+ Float.toString(deltaRotationVector[2]) + ',' 
+					+ Boolean.toString(fireShoot);
+			fireShoot = false;
+				
 			if (ConnectToServerFlag) sendMsg2Server(msg);
 		}
 
@@ -297,14 +310,43 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		}
 
 	@Override
-		public boolean onOptionsItemSelected(MenuItem item) {
-			// Handle action bar item clicks here. The action bar will
-			// automatically handle clicks on the Home/Up button, so long
-			// as you specify a parent activity in AndroidManifest.xml.
-			int id = item.getItemId();
-			if (id == R.id.action_settings) {
-				return true;
-			}
-			return super.onOptionsItemSelected(item);
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		int id = item.getItemId();
+		if (id == R.id.action_settings) {
+			return true;
 		}
+		return super.onOptionsItemSelected(item);
+	}
+	
+	
+	// Controls
+//	public class RemoteControlReceiver extends BroadcastReceiver {
+//	    @Override
+//	    public void onReceive(Context context, Intent intent) {
+//	        if (Intent.ACTION_MEDIA_BUTTON.equals(intent.getAction())) {
+//	            KeyEvent event = (KeyEvent)intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
+////	            if (KeyEvent.KEYCODE_MEDIA_PLAY == event.getKeyCode()) {
+//	                // Handle key press.
+//	            	Log.d("AS.RemoteControlReceiver", "Key Press");
+////	            }
+//	        }
+//	    }
+//	}
+	
+	@Override 
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+	    switch (keyCode) {
+	        case KeyEvent.KEYCODE_HEADSETHOOK:
+	        {
+	        	Log.d("AS.onKeyDown", "Key Press");
+	        	fireShoot = true;
+	            return true;
+	        }
+	    }
+	    Log.d("onKeyDown", Integer.toString(keyCode));
+	    return super.onKeyDown(keyCode, event);
+	}
 }
