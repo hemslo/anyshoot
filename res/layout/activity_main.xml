@@ -81,7 +81,7 @@
         android:layout_below="@+id/textView6"
         android:layout_marginTop="23dp"
         android:onClick="onClickBtnConnect"
-        android:text="Connect" />
+        android:text="Toggle" />
 
     <Button
         android:id="@+id/button2"
