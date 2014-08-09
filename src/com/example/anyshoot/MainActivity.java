@@ -5,38 +5,56 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.util.FloatMath;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements SensorEventListener{
 
+	private Socket socket;
+
+	private int SERVERPORT = 5000;
+	private String SERVER_IP = "0.0.0.0";
+	
+	private SensorManager sensorManager;
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
         TextView textView = (TextView) findViewById(R.id.textView1);
-        SensorManager mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        if(mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE) != null)
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        if(sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE) != null) {
         	textView.setText("GYROSCOPE Found");
-    	else
+            sensorManager.registerListener(this,sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE),SensorManager.SENSOR_DELAY_GAME);
+        } else {
         	textView.setText("GYROSCOPE Not Found");
-        
-        
+        }
+    }
+    
+    public void onClickBtnConnect(View v) {
+    	TextView textView = (TextView) findViewById(R.id.textView7);
+    	textView.setText("Connect");
     }
     
  // Create a constant to convert nanoseconds to seconds.
     private static final float NS2S = 1.0f / 1000000000.0f;
-	private static final float EPSILON = 0.01f;
+	private static final float EPSILON = 1f;
     private final float[] deltaRotationVector = new float[4];
     private float timestamp;
 
-    @SuppressLint("NewApi") public void onSensorChanged(SensorEvent event) {
+    @Override
+    public void onSensorChanged(SensorEvent event) {
       // This timestep's delta rotation to be multiplied by the current rotation
       // after computing it from the gyro sample data.
       if (timestamp != 0) {
@@ -79,15 +97,18 @@ public class MainActivity extends ActionBarActivity {
       textView1.setText(Float.toString(deltaRotationVector[0]));
       textView2.setText(Float.toString(deltaRotationVector[1]));
       textView3.setText(Float.toString(deltaRotationVector[2]));
-      textView4.setText(Float.toString(deltaRotationVector[3]));
+      textView4.setText(Float.toString(timestamp));
       
       float[] deltaRotationMatrix = new float[9];
-      SensorManager.getRotationMatrixFromVector(deltaRotationMatrix, deltaRotationVector);
+      // SensorManager.getRotationMatrixFromVector(deltaRotationMatrix, deltaRotationVector);
         // User code should concatenate the delta rotation we computed with the current rotation
         // in order to get the updated rotation.
         // rotationCurrent = rotationCurrent * deltaRotationMatrix;
    }
-     
+    
+    @Override
+	public void onAccuracyChanged(Sensor sensor, int accuracy) { 
+	}
 
 
     @Override
