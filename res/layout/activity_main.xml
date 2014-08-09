@@ -128,4 +128,13 @@
         android:orientation="vertical" >
     </LinearLayout>
 
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/button2"
+        android:layout_alignRight="@+id/plotlayout"
+        android:onClick="onClickBtnReset"
+        android:text="Reset" />
+
 </RelativeLayout>

@@ -81,7 +81,8 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	
 	// control
 	private boolean fireShoot;
-
+	private boolean resetCaliber;
+	
 	void sendMsg2Server(final String udpMsg){
 		EditText ServerText = (EditText) findViewById(R.id.editText1);
 		final String SERVER_IP = ServerText.getText().toString();
@@ -150,11 +151,11 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			
 			// Control
 			fireShoot = false;
+			resetCaliber = false;
 		}
 
 	public void onClickBtnConnect(View v) {
 		TextView textView = (TextView) findViewById(R.id.textView7);
-		textView.setText("Connecting ...");
 		// Defines a Handler object that's attached to the UI thread
 		Handler mHandler = new Handler(Looper.getMainLooper()) {
 			/*
@@ -170,9 +171,22 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 
 		//toggle
 		ConnectToServerFlag = ConnectToServerFlag ? false : true;
+		if (ConnectToServerFlag) textView.setText("Sending ...");
+		else textView.setText("Stop ...");
 
 	}
 
+	private void resetStat(){
+		accumX = 0;
+		accumY = 0;
+		accumZ = 0;
+		resetCaliber = true;
+	}
+	
+	public void onClickBtnReset(View vi) {
+		resetStat();
+	}
+	
 	public void onClickBtnPlot(View vi) {
 		GraphView graphView = new LineGraphView(
 				this // context
@@ -238,7 +252,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			deltaRotationVector[3] = cosThetaOverTwo;
 			//        deltaRotationVector[0] = dT * axisX;
 			//        deltaRotationVector[1] = dT * axisY;
-			//      	deltaRotationVector[2] = dT * axisZ;
+			//        deltaRotationVector[2] = dT * axisZ;
 
 			TextView textView1 = (TextView) findViewById(R.id.textView2);
 			TextView textView2 = (TextView) findViewById(R.id.textView3);
@@ -287,13 +301,21 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			timestamp = event.timestamp;
 			String msg;
 			
-				
+			// change	
 			msg = Float.toString(deltaRotationVector[0]) + ',' 
 					+ Float.toString(deltaRotationVector[1]) + ',' 
 					+ Float.toString(deltaRotationVector[2]) + ',' 
 					+ Boolean.toString(fireShoot);
+			// accumulated
+			msg = Double.toString(accumX) + ',' 
+					+ Double.toString(accumY) + ',' 
+					+ Double.toString(accumZ) + ',' 
+					+ Boolean.toString(fireShoot) + ','
+					+ Boolean.toString(resetCaliber);
+			
 			fireShoot = false;
-				
+			resetCaliber = false;
+			
 			if (ConnectToServerFlag) sendMsg2Server(msg);
 		}
 
@@ -341,9 +363,15 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	    switch (keyCode) {
 	        case KeyEvent.KEYCODE_HEADSETHOOK:
 	        {
-	        	Log.d("AS.onKeyDown", "Key Press");
+	        	Log.d("AS.onKeyDown", "KEYCODE_HEADSETHOOK");
 	        	fireShoot = true;
 	            return true;
+	        }
+	        case KeyEvent.KEYCODE_VOLUME_DOWN:
+	        case KeyEvent.KEYCODE_VOLUME_UP:
+	        {
+	        	Log.d("AS.onKeyDown", "KEYCODE_VOLUME_Key");
+	        	resetStat();
 	        }
 	    }
 	    Log.d("onKeyDown", Integer.toString(keyCode));
