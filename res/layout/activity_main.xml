@@ -54,6 +54,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="114dp"
         android:text="timestamp" />
+
     <TextView
         android:id="@+id/textView6"
         android:layout_width="160dp"
@@ -61,7 +62,8 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="134dp"
-        android:text="" />
+        android:text="deltat" />
+
     <TextView
         android:id="@+id/textView8"
         android:layout_width="160dp"
@@ -81,6 +83,14 @@
         android:onClick="onClickBtnConnect"
         android:text="Connect" />
 
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="250dp"
+        android:onClick="onClickBtnPlot"
+        android:text="Plot" />
+    
     <EditText
         android:id="@+id/editText1"
         android:layout_width="160dp"
@@ -97,5 +107,25 @@
         android:layout_alignLeft="@+id/textView6"
         android:layout_below="@+id/button1"
         android:text="Status" />
+    
+    <!-- <com.androidplot.xy.XYPlot
+    android:id="@+id/aprHistoryPlot"
+    android:layout_width="fill_parent"
+    android:layout_height="160dp"
+    android:layout_weight="1"
+    android:layout_marginTop="250dp"
+    android:layout_marginLeft="10px"
+    android:layout_marginRight="10px"
+    title="realtime"
+    /> -->
+
+    <LinearLayout
+        android:id="@+id/plotlayout"
+        android:layout_width="560dp"
+        android:layout_height="120dp"
+        android:layout_alignLeft="@+id/button2"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical" >
+    </LinearLayout>
 
 </RelativeLayout>
