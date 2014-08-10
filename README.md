@@ -9,7 +9,12 @@ with @Henry-T, @hemslo, @boddmg
 
 08/08 18:30 - 08/10 18:00
 
+Demo
+========
+
 * Oculus View
-  * ![demo](demo.jpg)
+  * ![demo](Demo/demo.jpg)
 * Environment Setting
- * ![setting](setting.jpg)
+  * ![setting](Demo/setting.jpg)
+* Game to try with
+  * Shoot Duck
