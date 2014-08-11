@@ -34,8 +34,7 @@ Demo
   * ![setting](Demo/setting.jpg)
 * Game to try with
   * Shoot Duck (classic nintendo game)
-* (demo video is being made)
-* 
+* (demo video is being uploaded)
 
 About repo
 ========
