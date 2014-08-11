@@ -3,13 +3,18 @@ anyshoot
 
 Shoot anywhere!
 
-iHackathon 中美黑客马拉松 Connect to the Future Hackathon
+a AR shooting game, using Smartphone as Gun
 
-a AR shooting game, using Oculus Rift, Unity 3D, 3D printer, and Smartphone 
+- | -
+------------- | -------------
+team  | @Henry-T, @Arkansol, @hemslo, @boddmg
+at  | iHackathon 中美黑客马拉松 Connect to the Future Hackathon
+from | 08/08 18:30 - 08/10 18:00
 
-with @Henry-T, @hemslo, @boddmg
+Idea:
+========
 
-08/08 18:30 - 08/10 18:00
+
 
 Demo
 ========
