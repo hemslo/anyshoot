@@ -3,7 +3,7 @@ anyshoot
 
 Shoot anywhere!
 
-a Oculus AR shooting game, using Smartphone as Gun
+a Oculus virtual reality shooting game, using Smartphone as Gun
 
 
 - | -
