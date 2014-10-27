@@ -5,11 +5,14 @@ Shoot anywhere!
 
 a Oculus virtual reality shooting game, using Smartphone as Gun
 
+Check for code / video / demo at [iHackathon 中美黑客马拉松 Connect to the Future Hackathon](http://ihackathon.org/?page_id=1345).
+
+
 
 - | -
 ------------- | -------------
 who  | @Henry-T, @Arkansol, @hemslo, @boddmg
-where  | [iHackathon 中美黑客马拉松 Connect to the Future Hackathon](http://ihackathon.org/?page_id=1345)
+where  | iHackathon 中美黑客马拉松 Connect to the Future Hackathon
 when | 08/08 18:30 - 08/10 18:00
 use | Oculus Rift DK1, Unity 3D, 3D printer, smartphone
 
